@@ -1,12 +1,62 @@
-[gd_scene load_steps=3 format=3 uid="uid://deo5knsxsjhly"]
+[gd_scene load_steps=7 format=3 uid="uid://deo5knsxsjhly"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_u8m5m"]
 [ext_resource type="Texture2D" uid="uid://d15tb6tyxolct" path="res://Sprites/canny.jpg" id="2_7xyrw"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_npjmi"]
+size = Vector2(533.333, 533.333)
+
+[sub_resource type="Animation" id="Animation_02wsa"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [6.28319]
+}
+
+[sub_resource type="Animation" id="Animation_f5j7i"]
+resource_name = "dodge"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0c2v4"]
+_data = {
+"RESET": SubResource("Animation_02wsa"),
+"dodge": SubResource("Animation_f5j7i")
+}
+
 [node name="Player" type="CharacterBody2D"]
+rotation = 6.28319
 scale = Vector2(0.15, 0.15)
 script = ExtResource("1_u8m5m")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_7xyrw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-7.94729e-06, 3.17891e-06)
+shape = SubResource("RectangleShape2D_npjmi")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_0c2v4")
+}

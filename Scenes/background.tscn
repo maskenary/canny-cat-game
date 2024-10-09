@@ -13,4 +13,3 @@ offset_right = 5120.0
 offset_bottom = 3840.0
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("1_ysd5b")
-metadata/_edit_group_ = true
