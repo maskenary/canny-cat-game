@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://p2myv1lyv1qb"]
+[gd_scene load_steps=5 format=3 uid="uid://p2myv1lyv1qb"]
 
 [ext_resource type="Script" path="res://Scripts/main.gd" id="1_j824w"]
 [ext_resource type="PackedScene" uid="uid://deo5knsxsjhly" path="res://Scenes/player.tscn" id="1_kl833"]
 [ext_resource type="PackedScene" uid="uid://c6gfxycj2603q" path="res://Scenes/background.tscn" id="2_r5fni"]
+[ext_resource type="PackedScene" uid="uid://uugyvjl0gmkg" path="res://Scenes/interface.tscn" id="4_h8wl0"]
 
 [node name="Main" type="Node"]
 script = ExtResource("1_j824w")
@@ -11,5 +12,7 @@ script = ExtResource("1_j824w")
 modulate = Color(1, 1, 1, 0.294118)
 
 [node name="Player" parent="." instance=ExtResource("1_kl833")]
+
+[node name="Interface" parent="." instance=ExtResource("4_h8wl0")]
 
 [connection signal="bullet_fired" from="Player" to="." method="_on_player_bullet_fired"]
