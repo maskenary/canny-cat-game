@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://deo5knsxsjhly"]
+
+[ext_resource type="Script" path="res://Scripts/player.gd" id="1_u8m5m"]
+[ext_resource type="Texture2D" uid="uid://d15tb6tyxolct" path="res://Sprites/canny.jpg" id="2_7xyrw"]
+
+[node name="Player" type="CharacterBody2D"]
+scale = Vector2(0.15, 0.15)
+script = ExtResource("1_u8m5m")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_7xyrw")

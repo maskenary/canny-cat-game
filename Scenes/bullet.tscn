@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://dfvv3gkjwbpju"]
+
+[ext_resource type="Texture2D" uid="uid://d15tb6tyxolct" path="res://Sprites/canny.jpg" id="1_cgpno"]
+[ext_resource type="Script" path="res://Scripts/bullet.gd" id="1_ihgl6"]
+
+[node name="Bullet" type="Area2D"]
+scale = Vector2(0.075, 0.075)
+script = ExtResource("1_ihgl6")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_cgpno")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

@@ -1,0 +1,15 @@
+[gd_scene load_steps=4 format=3 uid="uid://p2myv1lyv1qb"]
+
+[ext_resource type="Script" path="res://Scripts/main.gd" id="1_j824w"]
+[ext_resource type="PackedScene" uid="uid://deo5knsxsjhly" path="res://Scenes/player.tscn" id="1_kl833"]
+[ext_resource type="PackedScene" uid="uid://c6gfxycj2603q" path="res://Scenes/background.tscn" id="2_r5fni"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1_j824w")
+
+[node name="Background" parent="." instance=ExtResource("2_r5fni")]
+modulate = Color(1, 1, 1, 0.294118)
+
+[node name="Player" parent="." instance=ExtResource("1_kl833")]
+
+[connection signal="bullet_fired" from="Player" to="." method="_on_player_bullet_fired"]
