@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://c6ln5pfkyyx1s"]
+
+[ext_resource type="Script" path="res://Scripts/world.gd" id="1_byq4o"]
+[ext_resource type="PackedScene" uid="uid://c6gfxycj2603q" path="res://Scenes/background.tscn" id="1_gmfif"]
+[ext_resource type="PackedScene" uid="uid://deo5knsxsjhly" path="res://Scenes/player.tscn" id="2_v6v5h"]
+
+[node name="World" type="Node" node_paths=PackedStringArray("player")]
+script = ExtResource("1_byq4o")
+player = NodePath("Player")
+
+[node name="Background" parent="." instance=ExtResource("1_gmfif")]
+modulate = Color(1, 1, 1, 0.294118)
+
+[node name="Player" parent="." instance=ExtResource("2_v6v5h")]

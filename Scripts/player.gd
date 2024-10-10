@@ -4,6 +4,10 @@ signal bullet_fired(bullet_instance)
 signal damage_taken(hp)
 signal charges_changed(charges)
 
+@export var sprite: Node
+@export var anim: Node
+@export var charge_cd: Node
+
 const bullet = preload("res://Scenes/Bullet.tscn")
 var shoot_cd = 0.2
 var can_shoot = true
@@ -19,12 +23,11 @@ enum States {
 	DODGING
 }
 var state = States.ACTIVE
+
 @onready var screen_size = get_viewport().size
-@onready var sprite = $Sprite2D
 @onready var sprite_width_scaled = sprite.texture.get_width() * self.transform.get_scale().x
 @onready var sprite_height_scaled = sprite.texture.get_height() * self.transform.get_scale().y
-@onready var anim = $AnimationPlayer
-@onready var charge_cd = $ChargeCooldown
+
 
 func shoot():
 	if Input.is_action_pressed("shoot") and can_shoot:

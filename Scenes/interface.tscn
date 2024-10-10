@@ -46,7 +46,7 @@ corner_radius_top_right = 5
 corner_radius_bottom_right = 5
 corner_radius_bottom_left = 5
 
-[node name="Interface" type="Control"]
+[node name="Interface" type="Control" node_paths=PackedStringArray("charges", "healthbar", "dodgebar")]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -54,6 +54,9 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_u55ln")
+charges = [NodePath("DodgeCharges/Charge1"), NodePath("DodgeCharges/Charge2"), NodePath("DodgeCharges/Charge3")]
+healthbar = NodePath("HealthBar")
+dodgebar = NodePath("DodgeBar")
 
 [node name="HealthBar" type="ProgressBar" parent="."]
 layout_mode = 1

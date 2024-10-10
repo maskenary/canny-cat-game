@@ -1,8 +1,8 @@
 extends Control
 
-@onready var charges = [$DodgeCharges/Charge1, $DodgeCharges/Charge2, $DodgeCharges/Charge3]
-@onready var healthbar = $HealthBar
-@onready var dodgebar = $DodgeBar
+@export var charges: Array[Node]
+@export var healthbar: Node
+@export var dodgebar: Node
 
 func update_healthbar(hp):
 	healthbar.value = hp

@@ -43,10 +43,13 @@ _data = {
 "dodge": SubResource("Animation_f5j7i")
 }
 
-[node name="Player" type="CharacterBody2D"]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "anim", "charge_cd")]
 rotation = 6.28319
 scale = Vector2(0.15, 0.15)
 script = ExtResource("1_u8m5m")
+sprite = NodePath("Sprite2D")
+anim = NodePath("AnimationPlayer")
+charge_cd = NodePath("ChargeCooldown")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
