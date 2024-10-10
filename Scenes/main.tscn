@@ -16,3 +16,5 @@ modulate = Color(1, 1, 1, 0.294118)
 [node name="Interface" parent="." instance=ExtResource("4_h8wl0")]
 
 [connection signal="bullet_fired" from="Player" to="." method="_on_player_bullet_fired"]
+[connection signal="charges_changed" from="Player" to="." method="_on_player_charges_changed"]
+[connection signal="damage_taken" from="Player" to="." method="_on_player_damage_taken"]

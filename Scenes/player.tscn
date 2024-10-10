@@ -60,3 +60,8 @@ shape = SubResource("RectangleShape2D_npjmi")
 libraries = {
 "": SubResource("AnimationLibrary_0c2v4")
 }
+
+[node name="ChargeCooldown" type="Timer" parent="."]
+wait_time = 5.0
+
+[connection signal="timeout" from="ChargeCooldown" to="." method="_on_charge_cooldown_timeout"]
