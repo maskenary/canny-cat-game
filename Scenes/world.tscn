@@ -12,3 +12,7 @@ player = NodePath("Player")
 modulate = Color(1, 1, 1, 0.294118)
 
 [node name="Player" parent="." instance=ExtResource("2_v6v5h")]
+
+[connection signal="bullet_fired" from="Player" to="." method="_on_player_bullet_fired"]
+[connection signal="charges_changed" from="Player" to="." method="_on_player_charges_changed"]
+[connection signal="damage_taken" from="Player" to="." method="_on_player_damage_taken"]
