@@ -1,0 +1,24 @@
+[gd_scene load_steps=4 format=3 uid="uid://bgxdmhawwu7pd"]
+
+[ext_resource type="Script" path="res://Scripts/Boss/boss_bullet.gd" id="1_qetkt"]
+[ext_resource type="Texture2D" uid="uid://cb3j2nu6lk4gr" path="res://Sprites/uncanny.jpg" id="2_x5qau"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8puxb"]
+size = Vector2(640, 640)
+
+[node name="BossBullet" type="Area2D"]
+modulate = Color(0.999997, 0.346581, 0.280013, 1)
+scale = Vector2(0.075, 0.075)
+script = ExtResource("1_qetkt")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_x5qau")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_8puxb")
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

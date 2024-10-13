@@ -16,7 +16,7 @@ modulate = Color(1, 1, 1, 0.294118)
 position = Vector2(512, 512)
 
 [node name="BossSpawn" type="Marker2D" parent="."]
-position = Vector2(512, 128)
+position = Vector2(512, -192)
 
 [connection signal="bullet_fired" from="Player" to="." method="_on_player_bullet_fired"]
 [connection signal="charges_changed" from="Player" to="." method="_on_player_charges_changed"]

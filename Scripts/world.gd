@@ -4,17 +4,17 @@ signal update_healthbar()
 signal update_dodgebar()
 signal update_charges()
 
-var boss = load("res://Scenes/boss.tscn")
-var boss_interface = load("res://Scenes/boss_interface.tscn")
+var boss = load("res://Scenes/Boss/boss.tscn")
+var boss_interface = load("res://Scenes/Boss/boss_interface.tscn")
 var boss_instance
 var boss_interface_instance
 @export var player: Node
 @export var boss_spawn: Node
 
-func spawn_boss(boss, spawnpoint):
+func spawn_boss():
 	boss_instance = boss.instantiate()
-	boss_instance.position.x = spawnpoint.position.x
-	boss_instance.position.y = spawnpoint.position.y
+	boss_instance.position.x = boss_spawn.position.x
+	boss_instance.position.y = boss_spawn.position.y
 	boss_interface_instance = boss_interface.instantiate()
 	
 	self.add_child(boss_instance)
@@ -29,7 +29,7 @@ func cleanup_boss():
 	boss_interface_instance.queue_free()
 
 func _ready() -> void:
-	spawn_boss(boss, boss_spawn)
+	spawn_boss()
 	
 func _on_player_bullet_fired(bullet_instance) -> void:
 	add_child(bullet_instance)

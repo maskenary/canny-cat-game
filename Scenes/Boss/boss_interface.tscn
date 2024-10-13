@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://dm0kx2wtasdwm"]
 
-[ext_resource type="Script" path="res://Scripts/boss_interface.gd" id="1_sbc8p"]
+[ext_resource type="Script" path="res://Scripts/Boss/boss_interface.gd" id="1_uhqoa"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ioooh"]
 bg_color = Color(1, 0, 0, 1)
@@ -18,7 +18,7 @@ offset_top = 8.0
 offset_right = 320.0
 offset_bottom = 48.0
 grow_horizontal = 2
-script = ExtResource("1_sbc8p")
+script = ExtResource("1_uhqoa")
 name_label = NodePath("BossName")
 healthbar = NodePath("BossHealthBar")
 

@@ -43,7 +43,10 @@ func dodge():
 	if charges > 0 and Input.is_action_pressed("dodge") and input_direction != Vector2.ZERO:
 		charges -= 1
 		emit_signal("charges_changed", charges)
-		anim.play("dodge")
+		if input_direction.x >= 0:
+			anim.play("dodge_right")
+		elif input_direction.x < 0:
+			anim.play("dodge_left")
 		state = States.DODGING
 		
 
