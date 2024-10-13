@@ -9,14 +9,14 @@ signal charges_changed(charges)
 @export var charge_cd: Node
 
 const bullet = preload("res://Scenes/Bullet.tscn")
-var shoot_cd = 0.2
+var shoot_cd = 0.1
 var can_shoot = true
 var dodge_speed = 800
 var normal_speed = 400
 var input_direction = Vector2.ZERO
 var hp = 10
 var charges = 0
-var charge_cd_progress = 0 # Main reads this to send to UI
+var charge_cd_progress = 0 # World reads this to send to UI
 
 enum States {
 	ACTIVE,
@@ -30,7 +30,8 @@ var state = States.ACTIVE
 
 
 func shoot():
-	if Input.is_action_pressed("shoot") and can_shoot:
+	# Can add Input.is_action_pressed("shoot")
+	if can_shoot:
 		var bullet_instance = bullet.instantiate()
 		bullet_instance.global_position = self.global_position
 		emit_signal("bullet_fired", bullet_instance)

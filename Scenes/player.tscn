@@ -4,7 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://d15tb6tyxolct" path="res://Sprites/canny.jpg" id="2_7xyrw"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_npjmi"]
-size = Vector2(533.333, 533.333)
+size = Vector2(511.998, 512.002)
 
 [sub_resource type="Animation" id="Animation_02wsa"]
 length = 0.001
@@ -45,7 +45,7 @@ _data = {
 
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "anim", "charge_cd")]
 rotation = 6.28319
-scale = Vector2(0.15, 0.15)
+scale = Vector2(0.125, 0.125)
 script = ExtResource("1_u8m5m")
 sprite = NodePath("Sprite2D")
 anim = NodePath("AnimationPlayer")
@@ -56,7 +56,7 @@ metadata/_edit_group_ = true
 texture = ExtResource("2_7xyrw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-7.94729e-06, 3.17891e-06)
+position = Vector2(1.4782e-05, 1.09672e-05)
 shape = SubResource("RectangleShape2D_npjmi")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

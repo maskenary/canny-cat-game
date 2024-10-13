@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://dd6eq5v3spm1h"]
+
+[ext_resource type="Script" path="res://Scripts/boss.gd" id="1_gdho8"]
+[ext_resource type="Texture2D" uid="uid://cb3j2nu6lk4gr" path="res://Sprites/uncanny.jpg" id="1_m76uo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_11037"]
+size = Vector2(640, 640)
+
+[node name="Boss" type="Area2D"]
+scale = Vector2(0.2, 0.2)
+script = ExtResource("1_gdho8")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_m76uo")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-3.8147e-05, -9.53674e-06)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_11037")
+
+[connection signal="area_entered" from="." to="." method="_on_area_entered"]

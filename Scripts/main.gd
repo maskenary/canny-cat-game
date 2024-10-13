@@ -16,9 +16,11 @@ func load_scene(scene) -> Node:
 	return scene_instance
 	
 func start_game():
-	var interface_instance = load_scene(interface)
+	mm_instance.queue_free()
+	
 	var world_instance = load_scene(world)
+	var interface_instance = load_scene(interface)
 	world_instance.update_charges.connect(interface_instance.update_charges)
 	world_instance.update_healthbar.connect(interface_instance.update_healthbar)
 	world_instance.update_dodgebar.connect(interface_instance.update_dodgebar)
-	mm_instance.queue_free()
+	
