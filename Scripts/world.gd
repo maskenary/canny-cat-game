@@ -10,6 +10,7 @@ var boss_instance
 var boss_interface_instance
 @export var player: Node
 @export var boss_spawn: Node
+@export var boss_initial: Node
 
 func spawn_boss():
 	boss_instance = boss.instantiate()
@@ -23,6 +24,8 @@ func spawn_boss():
 	boss_instance.boss_damage_taken.connect(boss_interface_instance.update_healthbar)
 	boss_instance.boss_died.connect(cleanup_boss)
 	boss_interface_instance.set_values(boss_instance.boss_name, boss_instance.hp)
+	
+	boss_instance.set_target_position(boss_initial.position.x, boss_initial.position.y)
 
 func cleanup_boss():
 	boss_instance.queue_free()

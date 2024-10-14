@@ -21,22 +21,6 @@ tracks/0/keys = {
 "values": [6.28319]
 }
 
-[sub_resource type="Animation" id="Animation_f5j7i"]
-resource_name = "dodge_right"
-length = 0.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:rotation")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.0, 6.28319]
-}
-
 [sub_resource type="Animation" id="Animation_8jyex"]
 resource_name = "dodge_left"
 length = 0.2
@@ -51,6 +35,22 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
 "values": [0.0, -6.28319]
+}
+
+[sub_resource type="Animation" id="Animation_f5j7i"]
+resource_name = "dodge_right"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.28319]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0c2v4"]
@@ -73,7 +73,6 @@ metadata/_edit_group_ = true
 texture = ExtResource("2_7xyrw")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(1.4782e-05, 1.09672e-05)
 shape = SubResource("RectangleShape2D_npjmi")
 

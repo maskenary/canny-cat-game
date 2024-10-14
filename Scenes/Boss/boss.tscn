@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://dd6eq5v3spm1h"]
+[gd_scene load_steps=8 format=3 uid="uid://dd6eq5v3spm1h"]
 
 [ext_resource type="Script" path="res://Scripts/Boss/boss.gd" id="1_3i17d"]
 [ext_resource type="Texture2D" uid="uid://cb3j2nu6lk4gr" path="res://Sprites/uncanny.jpg" id="2_k23t5"]
@@ -11,22 +11,10 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
+tracks/0/path = NodePath("Sprite2D:offset")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(512, -192)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Sprite2D:offset")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
@@ -49,56 +37,37 @@ tracks/0/keys = {
 "values": [Vector2(0, 0), Vector2(0, -32), Vector2(0, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_xoi2g"]
-resource_name = "enter_stage"
+[sub_resource type="Animation" id="Animation_6wnaa"]
+resource_name = "moving"
+length = 0.125
+loop_mode = 1
+step = 0.025
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath(".:position")
+tracks/0/path = NodePath("Sprite2D:offset")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(0.5, 1),
+"times": PackedFloat32Array(0, 0.025, 0.05, 0.075, 0.1, 0.125),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
 "update": 0,
-"values": [Vector2(512, -192), Vector2(512, 160)]
+"values": [Vector2(0, 0), Vector2(100, -100), Vector2(100, 100), Vector2(-100, -100), Vector2(-100, 100), Vector2(0, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_4q7vj"]
 _data = {
 "RESET": SubResource("Animation_wrkxq"),
-"enter_stage": SubResource("Animation_xoi2g"),
-"idle": SubResource("Animation_chay0")
+"idle": SubResource("Animation_chay0"),
+"moving": SubResource("Animation_6wnaa")
 }
 
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_5tyuk"]
-animation = &"enter_stage"
-
-[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_bqhxk"]
-animation = &"idle"
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_obxld"]
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_k08el"]
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_xqma4"]
-advance_mode = 2
-
-[sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_38aph"]
-states/End/position = Vector2(1069, 100)
-states/Start/position = Vector2(181, 100)
-states/enter_stage/node = SubResource("AnimationNodeAnimation_5tyuk")
-states/enter_stage/position = Vector2(409, 100)
-states/idle/node = SubResource("AnimationNodeAnimation_bqhxk")
-states/idle/position = Vector2(675, 94)
-transitions = ["Start", "enter_stage", SubResource("AnimationNodeStateMachineTransition_obxld"), "enter_stage", "idle", SubResource("AnimationNodeStateMachineTransition_k08el"), "idle", "End", SubResource("AnimationNodeStateMachineTransition_xqma4")]
-
-[node name="Boss" type="Area2D"]
-position = Vector2(512, -192)
+[node name="Boss" type="Area2D" node_paths=PackedStringArray("anim_player", "sprite", "active_timer")]
 scale = Vector2(0.2, 0.2)
 script = ExtResource("1_3i17d")
+anim_player = NodePath("AnimationPlayer")
+sprite = NodePath("Sprite2D")
+active_timer = NodePath("ActiveTimer")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -114,8 +83,8 @@ libraries = {
 "": SubResource("AnimationLibrary_4q7vj")
 }
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
-tree_root = SubResource("AnimationNodeStateMachine_38aph")
-anim_player = NodePath("../AnimationPlayer")
+[node name="ActiveTimer" type="Timer" parent="."]
+one_shot = true
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
+[connection signal="timeout" from="ActiveTimer" to="." method="_on_active_timer_timeout"]
