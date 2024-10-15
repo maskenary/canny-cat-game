@@ -4,11 +4,11 @@
 [ext_resource type="PackedScene" uid="uid://c6gfxycj2603q" path="res://Scenes/background.tscn" id="1_gmfif"]
 [ext_resource type="PackedScene" uid="uid://deo5knsxsjhly" path="res://Scenes/player.tscn" id="2_v6v5h"]
 
-[node name="World" type="Node" node_paths=PackedStringArray("player", "boss_spawn", "boss_initial")]
+[node name="World" type="Node" node_paths=PackedStringArray("player", "boss_spawn", "boss_positions")]
 script = ExtResource("1_byq4o")
 player = NodePath("Player")
 boss_spawn = NodePath("BossSpawn")
-boss_initial = NodePath("BossPosition2")
+boss_positions = [NodePath("BossPosition1"), NodePath("BossPosition2"), NodePath("BossPosition3")]
 
 [node name="Background" parent="." instance=ExtResource("1_gmfif")]
 modulate = Color(1, 1, 1, 0.294118)
@@ -20,13 +20,13 @@ position = Vector2(512, 512)
 position = Vector2(512, -192)
 
 [node name="BossPosition1" type="Marker2D" parent="."]
-position = Vector2(128, 192)
-
-[node name="BossPosition2" type="Marker2D" parent="."]
 position = Vector2(512, 96)
 
-[node name="BossPosition3" type="Marker2D" parent="."]
+[node name="BossPosition2" type="Marker2D" parent="."]
 position = Vector2(896, 192)
+
+[node name="BossPosition3" type="Marker2D" parent="."]
+position = Vector2(128, 192)
 
 [connection signal="bullet_fired" from="Player" to="." method="_on_player_bullet_fired"]
 [connection signal="charges_changed" from="Player" to="." method="_on_player_charges_changed"]

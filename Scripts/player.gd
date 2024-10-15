@@ -28,6 +28,8 @@ var state = States.ACTIVE
 @onready var sprite_width_scaled = sprite.texture.get_width() * self.transform.get_scale().x
 @onready var sprite_height_scaled = sprite.texture.get_height() * self.transform.get_scale().y
 
+func _ready() -> void:
+	add_to_group("player")
 
 func shoot():
 	# Can add Input.is_action_pressed("shoot")
@@ -72,6 +74,7 @@ func _process(delta: float) -> void:
 func _physics_process(delta):
 	if state == States.ACTIVE:
 		input_direction = Input.get_vector("left", "right", "up", "down")
+		input_direction = input_direction.normalized()
 		velocity = input_direction * normal_speed 
 		move_and_slide()
 	if state == States.DODGING:
@@ -85,3 +88,7 @@ func _physics_process(delta):
 func _on_charge_cooldown_timeout() -> void:
 	charges += 1
 	emit_signal("charges_changed", charges)
+
+func take_damage(damage):
+	hp -= damage
+	emit_signal("damage_taken", hp)

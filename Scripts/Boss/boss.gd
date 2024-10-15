@@ -2,18 +2,21 @@ extends Area2D
 
 signal boss_damage_taken(hp)
 signal boss_died
+signal spawn_pattern(pattern)
+
+var attack_patterns = load("res://Scenes/Boss/attack_patterns.tscn")
 
 @export var anim_player: Node
 @export var sprite: Node
 @export var active_timer: Node
+@export var attack_timer: Node
 var boss_name = "Uncatty, The Rotter of Neurons"
-var hp = 100
-var speed = 600
-var active_timelength = 5
+var hp = 300
+var speed = 800
 
-# Set from creator
-var boss_positions = []
+var boss_positions = [] # Set from creator
 var boss_positions_index = 0
+var boss_attacks = ["throw_bursts"] # Set according to functions in "AttackPatterns"
 
 enum States {
 	ACTIVE,
@@ -21,6 +24,10 @@ enum States {
 }
 var state = States.MOVING;
 var target_position = Vector2.ZERO
+
+func update_cooldowns(attack_cooldown, active_duration):
+	attack_timer.wait_time = attack_cooldown
+	active_timer.wait_time = active_duration
 
 func _on_area_entered(area: Area2D) -> void:
 	hp -= 1
@@ -42,6 +49,8 @@ func _process(delta: float) -> void:
 		animate_self("moving")
 		sprite.modulate = Color(0.533, 0, 0)
 		if position == target_position:
+			active_timer.start(0)
+			attack_timer.start(0)
 			state = States.ACTIVE
 			
 	elif state == States.ACTIVE:
@@ -52,23 +61,32 @@ func _process(delta: float) -> void:
 func _physics_process(delta: float) -> void:
 	if state == States.MOVING:
 		var move_dir = position.direction_to(target_position)
+		move_dir = move_dir.normalized()
 		var x_movement = move_dir.x * speed * delta
 		var y_movement = move_dir.y * speed * delta
-		if target_position.x - position.x < x_movement:
+		if abs(target_position.x - position.x) < abs(x_movement):
 			position.x = target_position.x
 		else:
 			position.x += x_movement 
 			
-		if target_position.y - position.y < x_movement:
+		if abs(target_position.y - position.y) < abs(y_movement):
 			position.y = target_position.y
 		else:
 			position.y += y_movement 
-			
-		
-	
+
 
 func _on_active_timer_timeout() -> void:
-	boss_positions_index+=1
+	attack_timer.stop()
+	if boss_positions_index+1 >= len(boss_positions):
+		boss_positions_index = 0
+	else:
+		boss_positions_index+=1
 	var next_position = boss_positions[boss_positions_index]
-	set_target_position(next_position.x, next_position.y)
+	set_target_position(next_position.position.x, next_position.position.y)
 	state = States.MOVING
+
+func _on_attack_timer_timeout() -> void:
+	var a = attack_patterns.instantiate()
+	a.position = self.position
+	emit_signal("spawn_pattern", a)
+	Callable(a, boss_attacks.pick_random()).bind(3).call()

@@ -62,13 +62,12 @@ _data = {
 "moving": SubResource("Animation_6wnaa")
 }
 
-[node name="Boss" type="Area2D" node_paths=PackedStringArray("anim_player", "sprite", "active_timer", "attack_timer")]
+[node name="Boss" type="Area2D" node_paths=PackedStringArray("anim_player", "sprite", "active_timer")]
 scale = Vector2(0.2, 0.2)
 script = ExtResource("1_3i17d")
 anim_player = NodePath("AnimationPlayer")
 sprite = NodePath("Sprite2D")
 active_timer = NodePath("ActiveTimer")
-attack_timer = NodePath("AttackTimer")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
@@ -85,12 +84,8 @@ libraries = {
 }
 
 [node name="ActiveTimer" type="Timer" parent="."]
-wait_time = 6.0
+wait_time = 5.0
 one_shot = true
-
-[node name="AttackTimer" type="Timer" parent="."]
-wait_time = 3.0
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="timeout" from="ActiveTimer" to="." method="_on_active_timer_timeout"]
-[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
