@@ -14,7 +14,7 @@ func update_charges(charge_count):
 	for i in range(charges.size()):
 		var color
 		if charge_count > i:
-			color = Color(0, 0.565, 1) # "Has charge" colpr
+			color = Color(0.559, 0.616, 0.849) # "Has charge" colpr
 		else:
 			color = Color(0.6, 0.6, 0.6) # "No charge" color
 			

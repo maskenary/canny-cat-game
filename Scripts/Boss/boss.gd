@@ -4,7 +4,7 @@ signal boss_damage_taken(hp)
 signal boss_died
 signal spawn_pattern(pattern)
 
-var attack_patterns = load("res://Scenes/Boss/attack_patterns.tscn")
+var pattern_spawner = load("res://Scenes/Boss/pattern_spawner.tscn")
 
 @export var anim_player: Node
 @export var sprite: Node
@@ -12,11 +12,16 @@ var attack_patterns = load("res://Scenes/Boss/attack_patterns.tscn")
 @export var attack_timer: Node
 var boss_name = "Uncatty, The Rotter of Neurons"
 var hp = 300
-var speed = 800
+var speed = 1500
 
 var boss_positions = [] # Set from creator
 var boss_positions_index = 0
-var boss_attacks = ["throw_bursts"] # Set according to functions in "AttackPatterns"
+
+# These pass into the pattern functions
+var single_spin_formation = load("res://Scenes/Boss/single_spin_formation.tscn")
+var rotation_formation = load("res://Scenes/Boss/rotation_formation.tscn")
+
+var attack_rotation = 0
 
 enum States {
 	ACTIVE,
@@ -86,7 +91,15 @@ func _on_active_timer_timeout() -> void:
 	state = States.MOVING
 
 func _on_attack_timer_timeout() -> void:
-	var p = attack_patterns.instantiate()
-	p.position = self.position
-	emit_signal("spawn_pattern", p)
-	Callable(p, boss_attacks.pick_random()).bind(3).call()
+	var pattern = pattern_spawner.instantiate()
+	pattern.position = self.position
+	emit_signal("spawn_pattern", pattern)
+	if attack_rotation == 0:
+		pattern.shoot_at_player(rotation_formation, 300, 10, 0.1, 10)
+	elif attack_rotation == 1:
+		pattern.rain_down(single_spin_formation, 200, 10, 0.1, 100, 300, 30)
+	attack_rotation += 1
+	if attack_rotation > 1:
+		attack_rotation = 0
+	
+	

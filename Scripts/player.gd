@@ -8,11 +8,11 @@ signal charges_changed(charges)
 @export var anim: Node
 @export var charge_cd: Node
 
-const bullet = preload("res://Scenes/Bullet.tscn")
+var bullet = load("res://Scenes/Bullet.tscn")
 var shoot_cd = 0.1
 var can_shoot = true
 var dodge_speed = 800
-var normal_speed = 400
+var normal_speed = 300
 var input_direction = Vector2.ZERO
 var hp = 10
 var charges = 0
@@ -89,6 +89,9 @@ func _on_charge_cooldown_timeout() -> void:
 	charges += 1
 	emit_signal("charges_changed", charges)
 
+"""
+REFRACTOR
 func take_damage(damage):
 	hp -= damage
 	emit_signal("damage_taken", hp)
+"""
