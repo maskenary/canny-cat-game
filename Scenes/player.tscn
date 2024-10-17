@@ -63,6 +63,7 @@ _data = {
 [node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "anim", "charge_cd")]
 rotation = 6.28319
 scale = Vector2(0.125, 0.125)
+collision_mask = 2
 script = ExtResource("1_u8m5m")
 sprite = NodePath("Sprite2D")
 anim = NodePath("AnimationPlayer")

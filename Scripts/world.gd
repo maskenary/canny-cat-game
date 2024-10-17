@@ -23,11 +23,15 @@ func spawn_boss():
 	
 	boss_instance.boss_damage_taken.connect(boss_interface_instance.update_healthbar)
 	boss_instance.boss_died.connect(cleanup_boss)
+	boss_instance.spawn_pattern.connect(spawn_boss_pattern)
 	boss_interface_instance.set_values(boss_instance.boss_name, boss_instance.hp)
 	
 	boss_instance.set_target_position(boss_positions[0].position.x, boss_positions[0].position.y)
 	boss_instance.boss_positions = boss_positions
-
+	
+func spawn_boss_pattern(p):
+	self.add_child(p)
+	
 func cleanup_boss():
 	boss_instance.queue_free()
 	boss_interface_instance.queue_free()

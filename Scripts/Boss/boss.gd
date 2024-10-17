@@ -86,7 +86,7 @@ func _on_active_timer_timeout() -> void:
 	state = States.MOVING
 
 func _on_attack_timer_timeout() -> void:
-	var a = attack_patterns.instantiate()
-	a.position = self.position
-	emit_signal("spawn_pattern", a)
-	Callable(a, boss_attacks.pick_random()).bind(3).call()
+	var p = attack_patterns.instantiate()
+	p.position = self.position
+	emit_signal("spawn_pattern", p)
+	Callable(p, boss_attacks.pick_random()).bind(3).call()

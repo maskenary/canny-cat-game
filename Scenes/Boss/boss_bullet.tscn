@@ -9,6 +9,7 @@ size = Vector2(640, 640)
 [node name="BossBullet" type="Area2D"]
 modulate = Color(0.679015, 2.86378e-06, 2.88785e-07, 1)
 scale = Vector2(0.1, 0.1)
+collision_layer = 2
 script = ExtResource("1_qetkt")
 metadata/_edit_group_ = true
 
