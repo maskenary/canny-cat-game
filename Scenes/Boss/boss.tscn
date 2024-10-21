@@ -64,7 +64,7 @@ _data = {
 
 [node name="Boss" type="Area2D" node_paths=PackedStringArray("anim_player", "sprite", "active_timer", "attack_timer")]
 scale = Vector2(0.1, 0.1)
-collision_layer = 2
+collision_layer = 0
 script = ExtResource("1_3i17d")
 anim_player = NodePath("AnimationPlayer")
 sprite = NodePath("Sprite2D")

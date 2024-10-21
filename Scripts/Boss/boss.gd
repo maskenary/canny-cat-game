@@ -35,10 +35,10 @@ func update_cooldowns(attack_cooldown, active_duration):
 	active_timer.wait_time = active_duration
 
 func _on_area_entered(area: Area2D) -> void:
-	hp -= 1
+	hp -= area.get_damage()
 	emit_signal("boss_damage_taken", hp)
 	area.queue_free()
-		
+
 	if hp <= 0:
 		emit_signal("boss_died")
 
@@ -95,11 +95,13 @@ func _on_attack_timer_timeout() -> void:
 	pattern.position = self.position
 	emit_signal("spawn_pattern", pattern)
 	if attack_rotation == 0:
-		pattern.shoot_at_player(rotation_formation, 300, 10, 0.1, 10)
+		pattern.shotgun_at_player(single_spin_formation, 300, 6, 0.5, 90, 3, 10)
 	elif attack_rotation == 1:
-		pattern.rain_down(single_spin_formation, 200, 10, 0.1, 100, 300, 30)
+		pattern.rain_down(single_spin_formation, 200, 6, 1, 2, 10)
+	elif attack_rotation == 2:
+		pattern.shoot_at_player(rotation_formation, 300, 10, 0.1, 10)
 	attack_rotation += 1
-	if attack_rotation > 1:
+	if attack_rotation > 2:
 		attack_rotation = 0
 	
 	

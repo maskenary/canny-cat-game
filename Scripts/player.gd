@@ -89,9 +89,7 @@ func _on_charge_cooldown_timeout() -> void:
 	charges += 1
 	emit_signal("charges_changed", charges)
 
-"""
-REFRACTOR
-func take_damage(damage):
-	hp -= damage
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	hp -= area.get_damage()
 	emit_signal("damage_taken", hp)
-"""
+	area.queue_free()
