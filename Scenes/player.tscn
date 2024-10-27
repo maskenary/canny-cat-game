@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://deo5knsxsjhly"]
+[gd_scene load_steps=9 format=3 uid="uid://deo5knsxsjhly"]
 
 [ext_resource type="Script" path="res://Scripts/player.gd" id="1_u8m5m"]
 [ext_resource type="Texture2D" uid="uid://d15tb6tyxolct" path="res://Sprites/canny.jpg" id="2_7xyrw"]
@@ -17,10 +17,23 @@ tracks/0/keys = {
 "update": 0,
 "values": [6.28319]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/ColorRect:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0, 0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_8jyex"]
 resource_name = "dodge_left"
 length = 0.2
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -33,10 +46,23 @@ tracks/0/keys = {
 "update": 0,
 "values": [0.0, -6.28319]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/ColorRect:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 1, 0.47451)]
+}
 
 [sub_resource type="Animation" id="Animation_f5j7i"]
 resource_name = "dodge_right"
 length = 0.2
+loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -49,28 +75,67 @@ tracks/0/keys = {
 "update": 0,
 "values": [0.0, 6.28319]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D/ColorRect:color")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 1, 0.47451)]
+}
+
+[sub_resource type="Animation" id="Animation_mnkgn"]
+resource_name = "hurt"
+length = 0.6
+loop_mode = 1
+step = 0.05
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D/ColorRect:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 0, 0, 0.392157), Color(1, 1, 1, 0.729412)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_0c2v4"]
 _data = {
 "RESET": SubResource("Animation_02wsa"),
 "dodge_left": SubResource("Animation_8jyex"),
-"dodge_right": SubResource("Animation_f5j7i")
+"dodge_right": SubResource("Animation_f5j7i"),
+"hurt": SubResource("Animation_mnkgn")
 }
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_npjmi"]
-size = Vector2(511.998, 512.002)
+[sub_resource type="CircleShape2D" id="CircleShape2D_2q1j3"]
+radius = 300.167
 
-[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "anim", "charge_cd")]
+[node name="Player" type="CharacterBody2D" node_paths=PackedStringArray("sprite", "anim", "charge_cd", "dodge_duration")]
 rotation = 6.28319
-scale = Vector2(0.1, 0.1)
+scale = Vector2(0.07, 0.07)
 script = ExtResource("1_u8m5m")
 sprite = NodePath("Sprite2D")
 anim = NodePath("AnimationPlayer")
 charge_cd = NodePath("ChargeCooldown")
+dodge_duration = NodePath("DodgeDuration")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = ExtResource("2_7xyrw")
+
+[node name="ColorRect" type="ColorRect" parent="Sprite2D"]
+offset_left = -301.0
+offset_top = -311.0
+offset_right = 303.0
+offset_bottom = 311.0
+color = Color(1, 0, 0, 0)
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -80,14 +145,18 @@ libraries = {
 [node name="ChargeCooldown" type="Timer" parent="."]
 wait_time = 5.0
 
+[node name="DodgeDuration" type="Timer" parent="."]
+wait_time = 0.5
+
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 0
 collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+visible = false
 position = Vector2(1.4782e-05, 1.09672e-05)
-scale = Vector2(1, 1)
-shape = SubResource("RectangleShape2D_npjmi")
+shape = SubResource("CircleShape2D_2q1j3")
 
 [connection signal="timeout" from="ChargeCooldown" to="." method="_on_charge_cooldown_timeout"]
+[connection signal="timeout" from="DodgeDuration" to="." method="end_dodge"]
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]

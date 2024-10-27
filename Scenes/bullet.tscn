@@ -1,25 +1,32 @@
 [gd_scene load_steps=4 format=3 uid="uid://dfvv3gkjwbpju"]
 
-[ext_resource type="Texture2D" uid="uid://d15tb6tyxolct" path="res://Sprites/canny.jpg" id="1_cgpno"]
 [ext_resource type="Script" path="res://Scripts/bullet.gd" id="1_ihgl6"]
+[ext_resource type="Texture2D" uid="uid://7nxe1wva5rav" path="res://Sprites/canny-modified.png" id="2_35tln"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_8puxb"]
-size = Vector2(640, 640)
+[sub_resource type="CircleShape2D" id="CircleShape2D_hetaf"]
+radius = 640.0
 
 [node name="Bullet" type="Area2D"]
-modulate = Color(0.380156, 0.43999, 0.909628, 1)
+modulate = Color(0.380392, 0.439216, 0.909804, 0.466667)
 scale = Vector2(0.05, 0.05)
 collision_mask = 2
 script = ExtResource("1_ihgl6")
-metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_cgpno")
+texture = ExtResource("2_35tln")
+
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+position = Vector2(-640, -960)
+texture = ExtResource("2_35tln")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(640, -960)
+texture = ExtResource("2_35tln")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-shape = SubResource("RectangleShape2D_8puxb")
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
+position = Vector2(0, -640)
+shape = SubResource("CircleShape2D_hetaf")
 
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

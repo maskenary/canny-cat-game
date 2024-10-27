@@ -3,8 +3,8 @@
 [ext_resource type="Script" path="res://Scripts/Boss/boss.gd" id="1_3i17d"]
 [ext_resource type="Texture2D" uid="uid://cb3j2nu6lk4gr" path="res://Sprites/uncanny.jpg" id="2_k23t5"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_11037"]
-size = Vector2(640, 640)
+[sub_resource type="CircleShape2D" id="CircleShape2D_qty46"]
+radius = 340.0
 
 [sub_resource type="Animation" id="Animation_wrkxq"]
 length = 0.001
@@ -76,9 +76,8 @@ metadata/_edit_group_ = true
 texture = ExtResource("2_k23t5")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(-3.8147e-05, -9.53674e-06)
-shape = SubResource("RectangleShape2D_11037")
+shape = SubResource("CircleShape2D_qty46")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -90,7 +89,6 @@ wait_time = 6.0
 one_shot = true
 
 [node name="AttackTimer" type="Timer" parent="."]
-wait_time = 2.0
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]
 [connection signal="timeout" from="ActiveTimer" to="." method="_on_active_timer_timeout"]

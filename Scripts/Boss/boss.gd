@@ -10,9 +10,9 @@ var pattern_spawner = load("res://Scenes/Boss/pattern_spawner.tscn")
 @export var sprite: Node
 @export var active_timer: Node
 @export var attack_timer: Node
-var boss_name = "Uncatty, The Rotter of Neurons"
+var boss_name = "Joe"
 var hp = 300
-var speed = 1500
+var speed = 500
 
 var boss_positions = [] # Set from creator
 var boss_positions_index = 0
@@ -21,7 +21,7 @@ var boss_positions_index = 0
 var single_spin_formation = load("res://Scenes/Boss/single_spin_formation.tscn")
 var rotation_formation = load("res://Scenes/Boss/rotation_formation.tscn")
 
-var attack_rotation = 0
+var attack_index = 0
 
 enum States {
 	ACTIVE,
@@ -30,9 +30,11 @@ enum States {
 var state = States.MOVING;
 var target_position = Vector2.ZERO
 
+"""
 func update_cooldowns(attack_cooldown, active_duration):
 	attack_timer.wait_time = attack_cooldown
 	active_timer.wait_time = active_duration
+"""
 
 func _on_area_entered(area: Area2D) -> void:
 	hp -= area.get_damage()
@@ -94,14 +96,18 @@ func _on_attack_timer_timeout() -> void:
 	var pattern = pattern_spawner.instantiate()
 	pattern.position = self.position
 	emit_signal("spawn_pattern", pattern)
-	if attack_rotation == 0:
+	if attack_index == 0:
+		pattern.shoot_at_player(rotation_formation, 100, 1, 0, 5)
+	elif attack_index == 1:
+		pattern.rain(single_spin_formation, 300, 5, 0.3, true, 10)
+	elif attack_index == 2:
+		pattern.shoot_at_player(rotation_formation, 400, 10, 0.1, 10)
+	elif attack_index == 3:
+		pattern.rain(single_spin_formation, 300, 5, 0.3, false, 10)
+	elif attack_index == 4:
 		pattern.shotgun_at_player(single_spin_formation, 300, 6, 0.5, 90, 3, 10)
-	elif attack_rotation == 1:
-		pattern.rain_down(single_spin_formation, 200, 6, 1, 2, 10)
-	elif attack_rotation == 2:
-		pattern.shoot_at_player(rotation_formation, 300, 10, 0.1, 10)
-	attack_rotation += 1
-	if attack_rotation > 2:
-		attack_rotation = 0
+	attack_index += 1
+	if attack_index > 4:
+		attack_index = 0
 	
 	

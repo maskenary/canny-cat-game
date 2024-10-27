@@ -1,26 +1,26 @@
 [gd_scene load_steps=4 format=3 uid="uid://bgxdmhawwu7pd"]
 
 [ext_resource type="Script" path="res://Scripts/Boss/boss_bullet.gd" id="1_qetkt"]
-[ext_resource type="Texture2D" uid="uid://cb3j2nu6lk4gr" path="res://Sprites/uncanny.jpg" id="2_x5qau"]
+[ext_resource type="Texture2D" uid="uid://bipwiqn3x8np4" path="res://Sprites/uncanny-modified.png" id="2_g1ssa"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_8puxb"]
-size = Vector2(640, 640)
+[sub_resource type="CircleShape2D" id="CircleShape2D_iqtfr"]
+radius = 340.0
 
 [node name="BossBullet" type="Area2D"]
-modulate = Color(0.679015, 2.86378e-06, 2.88785e-07, 1)
-scale = Vector2(0.1, 0.1)
+modulate = Color(0.678431, 0, 0, 0.705882)
+scale = Vector2(0.05, 0.05)
 collision_layer = 2
 script = ExtResource("1_qetkt")
 metadata/_edit_group_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_x5qau")
+texture = ExtResource("2_g1ssa")
 
 [node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
-shape = SubResource("RectangleShape2D_8puxb")
+shape = SubResource("CircleShape2D_iqtfr")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

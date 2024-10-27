@@ -7,16 +7,18 @@ signal charges_changed(charges)
 @export var sprite: Node
 @export var anim: Node
 @export var charge_cd: Node
+@export var dodge_duration: Node
 
 var bullet = load("res://Scenes/Bullet.tscn")
 var shoot_cd = 0.1
 var can_shoot = true
-var dodge_speed = 800
 var normal_speed = 300
 var input_direction = Vector2.ZERO
 var hp = 10
 var charges = 0
 var charge_cd_progress = 0 # World reads this to send to UI
+var is_hittable = true
+var hurt_duration = 0.6
 
 enum States {
 	ACTIVE,
@@ -30,9 +32,12 @@ var state = States.ACTIVE
 
 func _ready() -> void:
 	add_to_group("player")
+	
+func anim_set(animation):
+	if anim.current_animation != animation:
+		anim.play(animation)
 
 func shoot():
-	# Can add Input.is_action_pressed("shoot")
 	if can_shoot:
 		var bullet_instance = bullet.instantiate()
 		bullet_instance.global_position = self.global_position
@@ -42,15 +47,16 @@ func shoot():
 		can_shoot = true
 		
 func dodge():
-	if charges > 0 and Input.is_action_pressed("dodge") and input_direction != Vector2.ZERO:
+	if charges > 0 and Input.is_action_pressed("dodge"):
 		charges -= 1
 		emit_signal("charges_changed", charges)
 		if input_direction.x >= 0:
-			anim.play("dodge_right")
+			anim_set("dodge_right")
 		elif input_direction.x < 0:
-			anim.play("dodge_left")
+			anim_set("dodge_left")
+		dodge_duration.start()
+		is_hittable = false
 		state = States.DODGING
-		
 
 func _process(delta: float) -> void:
 	# If we have max charges, stop the cooldown bar at the max
@@ -66,21 +72,15 @@ func _process(delta: float) -> void:
 		dodge()
 		shoot()
 	if state == States.DODGING:
-		sprite.modulate = Color(0.282, 0.612, 1)
-		if !anim.is_playing():
-			sprite.modulate = Color(1, 1, 1)
-			state = States.ACTIVE
+		if Input.is_action_just_released("dodge"):
+			end_dodge()
 			
 func _physics_process(delta):
-	if state == States.ACTIVE:
-		input_direction = Input.get_vector("left", "right", "up", "down")
-		input_direction = input_direction.normalized()
-		velocity = input_direction * normal_speed 
-		move_and_slide()
-	if state == States.DODGING:
-		velocity = input_direction * dodge_speed 
-		move_and_slide()
-		
+	input_direction = Input.get_vector("left", "right", "up", "down")
+	input_direction = input_direction.normalized()
+	velocity = input_direction * normal_speed 
+	move_and_slide()
+	
 	# Clamp the player to the screen
 	position.x = clamp(position.x, 0+sprite_width_scaled/2, screen_size.x-sprite_width_scaled/2)
 	position.y = clamp(position.y, 0+sprite_height_scaled/2, screen_size.y-sprite_height_scaled/2)
@@ -90,6 +90,18 @@ func _on_charge_cooldown_timeout() -> void:
 	emit_signal("charges_changed", charges)
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
-	hp -= area.get_damage()
-	emit_signal("damage_taken", hp)
-	area.queue_free()
+	if is_hittable:
+		hp -= area.get_damage()
+		area.queue_free()
+		emit_signal("damage_taken", hp)
+		anim_set("hurt")
+		is_hittable = false
+		await get_tree().create_timer(hurt_duration).timeout
+		anim_set("RESET")
+		is_hittable = true
+
+func end_dodge():
+	is_hittable = true
+	anim_set("RESET")
+	state = States.ACTIVE
+	

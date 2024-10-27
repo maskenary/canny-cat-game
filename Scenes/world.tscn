@@ -1,17 +1,32 @@
-[gd_scene load_steps=4 format=3 uid="uid://c6ln5pfkyyx1s"]
+[gd_scene load_steps=6 format=3 uid="uid://c6ln5pfkyyx1s"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_byq4o"]
 [ext_resource type="PackedScene" uid="uid://c6gfxycj2603q" path="res://Scenes/background.tscn" id="1_gmfif"]
 [ext_resource type="PackedScene" uid="uid://deo5knsxsjhly" path="res://Scenes/player.tscn" id="2_v6v5h"]
 
-[node name="World" type="Node" node_paths=PackedStringArray("player", "boss_spawn", "boss_positions")]
+[sub_resource type="Curve2D" id="Curve2D_7w6nl"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, 96, 96, 0, 0, 0, 0, 928, 96, 0, 0, 0, 0, 928, 288, 0, 0, 0, 0, 96, 288, 0, 0, 0, 0, 96, 96)
+}
+point_count = 5
+
+[sub_resource type="Curve2D" id="Curve2D_xr7rv"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -256, 288, 0, 0, 0, 0, -256, -256, 0, 0, 0, 0, 1280, -256, 0, 0, 0, 0, 1280, 288)
+}
+point_count = 4
+
+[node name="World" type="Node" node_paths=PackedStringArray("player", "boss_spawn", "boss_positions", "enemy_path", "enemy_spawnpoint")]
 script = ExtResource("1_byq4o")
 player = NodePath("Player")
 boss_spawn = NodePath("BossSpawn")
 boss_positions = [NodePath("BossPosition1"), NodePath("BossPosition2"), NodePath("BossPosition3")]
+enemy_path = NodePath("EnemyPath")
+enemy_spawnpoint = NodePath("Path2D/EnemySpawnpoint")
 
 [node name="Background" parent="." instance=ExtResource("1_gmfif")]
 modulate = Color(1, 1, 1, 0.294118)
+offset_left = -6.10352e-05
 
 [node name="Player" parent="." instance=ExtResource("2_v6v5h")]
 position = Vector2(512, 512)
@@ -28,6 +43,22 @@ position = Vector2(896, 192)
 [node name="BossPosition3" type="Marker2D" parent="."]
 position = Vector2(128, 192)
 
+[node name="EnemyPath" type="Path2D" parent="."]
+curve = SubResource("Curve2D_7w6nl")
+
+[node name="Path2D" type="Path2D" parent="."]
+position = Vector2(128, 101)
+scale = Vector2(0.75, 0.647059)
+curve = SubResource("Curve2D_xr7rv")
+
+[node name="EnemySpawnpoint" type="PathFollow2D" parent="Path2D"]
+position = Vector2(-256, 288)
+rotation = -1.5708
+
+[node name="SpawnTimer" type="Timer" parent="."]
+autostart = true
+
 [connection signal="bullet_fired" from="Player" to="." method="_on_player_bullet_fired"]
 [connection signal="charges_changed" from="Player" to="." method="_on_player_charges_changed"]
 [connection signal="damage_taken" from="Player" to="." method="_on_player_damage_taken"]
+[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

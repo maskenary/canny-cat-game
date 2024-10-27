@@ -149,16 +149,16 @@ autoplay = "attack"
 
 [node name="BossBullet" parent="." instance=ExtResource("2_xjfcf")]
 position = Vector2(192, -3)
-scale = Vector2(0.075, 0.075)
+scale = Vector2(0.07, 0.07)
 
 [node name="BossBullet2" parent="." instance=ExtResource("2_xjfcf")]
 position = Vector2(-1, -192)
-scale = Vector2(0.075, 0.075)
+scale = Vector2(0.07, 0.07)
 
 [node name="BossBullet3" parent="." instance=ExtResource("2_xjfcf")]
 position = Vector2(-192, 0)
-scale = Vector2(0.075, 0.075)
+scale = Vector2(0.07, 0.07)
 
 [node name="BossBullet4" parent="." instance=ExtResource("2_xjfcf")]
 position = Vector2(0, 160)
-scale = Vector2(0.075, 0.075)
+scale = Vector2(0.07, 0.07)
