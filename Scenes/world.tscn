@@ -10,19 +10,20 @@ _data = {
 }
 point_count = 5
 
-[sub_resource type="Curve2D" id="Curve2D_xr7rv"]
+[sub_resource type="Curve2D" id="Curve2D_60la0"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -256, 288, 0, 0, 0, 0, -256, -256, 0, 0, 0, 0, 1280, -256, 0, 0, 0, 0, 1280, 288)
+"points": PackedVector2Array(0, 0, 0, 0, -32, 288, 0, 0, 0, 0, -32, -32, 0, 0, 0, 0, 1056, -32, 0, 0, 0, 0, 1056, 288)
 }
 point_count = 4
 
-[node name="World" type="Node" node_paths=PackedStringArray("player", "boss_spawn", "boss_positions", "enemy_path", "enemy_spawnpoint")]
+[node name="World" type="Node" node_paths=PackedStringArray("player", "boss_spawn", "boss_positions", "enemy_path", "enemy_spawn", "enemy_initial")]
 script = ExtResource("1_byq4o")
 player = NodePath("Player")
 boss_spawn = NodePath("BossSpawn")
 boss_positions = [NodePath("BossPosition1"), NodePath("BossPosition2"), NodePath("BossPosition3")]
 enemy_path = NodePath("EnemyPath")
-enemy_spawnpoint = NodePath("Path2D/EnemySpawnpoint")
+enemy_spawn = NodePath("Path2D/EnemySpawnPoint")
+enemy_initial = NodePath("EnemyPath/EnemyInitialPoint")
 
 [node name="Background" parent="." instance=ExtResource("1_gmfif")]
 modulate = Color(1, 1, 1, 0.294118)
@@ -46,17 +47,18 @@ position = Vector2(128, 192)
 [node name="EnemyPath" type="Path2D" parent="."]
 curve = SubResource("Curve2D_7w6nl")
 
-[node name="Path2D" type="Path2D" parent="."]
-position = Vector2(128, 101)
-scale = Vector2(0.75, 0.647059)
-curve = SubResource("Curve2D_xr7rv")
-
-[node name="EnemySpawnpoint" type="PathFollow2D" parent="Path2D"]
-position = Vector2(-256, 288)
-rotation = -1.5708
+[node name="EnemyInitialPoint" type="PathFollow2D" parent="EnemyPath"]
+position = Vector2(96, 96)
 
 [node name="SpawnTimer" type="Timer" parent="."]
 autostart = true
+
+[node name="Path2D" type="Path2D" parent="."]
+curve = SubResource("Curve2D_60la0")
+
+[node name="EnemySpawnPoint" type="PathFollow2D" parent="Path2D"]
+position = Vector2(-32, 288)
+rotation = -1.5708
 
 [connection signal="bullet_fired" from="Player" to="." method="_on_player_bullet_fired"]
 [connection signal="charges_changed" from="Player" to="." method="_on_player_charges_changed"]

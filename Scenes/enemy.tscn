@@ -44,6 +44,7 @@ _data = {
 radius = 48.6621
 
 [node name="Enemy" type="PathFollow2D"]
+rotates = false
 script = ExtResource("1_h14fb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
