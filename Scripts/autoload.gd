@@ -8,4 +8,5 @@ func add_score(value):
 	if score > highscore:
 		highscore = score
 
+signal update_score
 signal clear_enemies

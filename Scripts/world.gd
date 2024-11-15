@@ -40,13 +40,6 @@ func spawn_boss():
 	boss_instance.set_target_position(boss_positions[0].position.x, boss_positions[0].position.y)
 	boss_instance.boss_positions = boss_positions
 
-func spawn_pickup(pickup):
-	self.add_child(pickup)
-	pickup.score_changed.connect(score_changed)
-
-func score_changed():
-	emit_signal("update_score")
-
 func spawn_pattern(p):
 	self.add_child(p)
 	
@@ -74,7 +67,6 @@ func _on_player_charges_changed(charges) -> void:
 func _on_spawn_timer_timeout() -> void:
 	var e = enemy.instantiate()
 	e.spawn_pattern.connect(spawn_pattern)
-	e.spawn_pickup.connect(spawn_pickup)
 	enemy_initial.progress_ratio = randf()
 	enemy_spawn.progress_ratio = randf()
 	var offset_x = -(enemy_initial.position.x - enemy_spawn.position.x)

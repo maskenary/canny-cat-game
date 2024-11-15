@@ -6,6 +6,9 @@ extends Control
 @export var score: Node
 @export var highscore: Node
 
+func _ready() -> void:
+	Autoload.update_score.connect(update_score)
+
 func update_healthbar(hp):
 	healthbar.value = hp
 

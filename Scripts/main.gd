@@ -20,9 +20,7 @@ func start_game():
 	
 	var world_instance = load_scene(world)
 	var interface_instance = load_scene(interface)
-	world_instance.update_score.connect(interface_instance.update_score)
 	world_instance.update_charges.connect(interface_instance.update_charges)
 	world_instance.update_healthbar.connect(interface_instance.update_healthbar)
 	world_instance.update_dodgebar.connect(interface_instance.update_dodgebar)
-	interface_instance.update_score()
-	
+	Autoload.emit_signal("update_score")

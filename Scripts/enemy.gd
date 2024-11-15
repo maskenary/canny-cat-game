@@ -1,7 +1,6 @@
 extends PathFollow2D
 
 signal spawn_pattern(pattern)
-signal spawn_pickup(pickup)
 signal enemy_died
 
 var pickup = load("res://Scenes/pickup.tscn")
@@ -62,7 +61,7 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 func die():
 	var p = pickup.instantiate()
 	p.position = self.position
-	emit_signal("spawn_pickup", p)
+	emit_signal("spawn_pattern", p)
 	
 	emit_signal('enemy_died')
 	queue_free()
