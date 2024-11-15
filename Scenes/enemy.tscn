@@ -43,9 +43,10 @@ _data = {
 [sub_resource type="CircleShape2D" id="CircleShape2D_lcs6d"]
 radius = 48.6621
 
-[node name="Enemy" type="PathFollow2D"]
+[node name="Enemy" type="PathFollow2D" node_paths=PackedStringArray("attack_timer")]
 rotates = false
 script = ExtResource("1_h14fb")
+attack_timer = NodePath("AttackTimer")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 scale = Vector2(0.1, 0.108)
@@ -59,7 +60,14 @@ libraries = {
 autoplay = "active"
 
 [node name="Area2D" type="Area2D" parent="."]
+collision_layer = 0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
 visible = false
 shape = SubResource("CircleShape2D_lcs6d")
+
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 2.0
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="timeout" from="AttackTimer" to="." method="attack"]

@@ -15,8 +15,10 @@ var boss_interface_instance
 @export var enemy_path: Node
 @export var enemy_spawn: Node
 @export var enemy_initial: Node
+@export var background: Node
+@export var spawn_timer: Node
 
-var level_progress = 1
+var enemies_left = 3
 
 func spawn_boss():
 	boss_instance = boss.instantiate()
@@ -47,12 +49,6 @@ func _on_player_bullet_fired(bullet_instance) -> void:
 	
 func _process(delta: float) -> void:
 	emit_signal("update_dodgebar", player.charge_cd_progress)
-	
-	if level_progress == 1:
-		pass
-	if level_progress == 2:
-		spawn_boss()
-		level_progress += 1
 
 func _on_player_damage_taken(hp) -> void:
 	emit_signal("update_healthbar", hp)
@@ -67,5 +63,17 @@ func _on_spawn_timer_timeout() -> void:
 	enemy_spawn.progress_ratio = randf()
 	var offset_x = -(enemy_initial.position.x - enemy_spawn.position.x)
 	var offset_y = -(enemy_initial.position.y - enemy_spawn.position.y)
-	e.setup(enemy_initial.progress_ratio, Vector2(offset_x, offset_y), enemy_path)
-	add_child(e)
+	e.enemy_died.connect(enemy_died)
+	enemy_path.add_child(e)
+	e.setup(enemy_initial.progress_ratio, Vector2(offset_x, offset_y))
+	
+func enemy_died():
+	enemies_left -= 1
+	print(enemies_left)
+	if enemies_left <= 0:
+		Events.emit_signal("clear_enemies")
+		spawn_timer.stop()
+		spawn_boss()
+		background.material = null
+	
+	

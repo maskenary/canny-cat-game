@@ -1,8 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://c6ln5pfkyyx1s"]
+[gd_scene load_steps=8 format=3 uid="uid://c6ln5pfkyyx1s"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_byq4o"]
 [ext_resource type="PackedScene" uid="uid://c6gfxycj2603q" path="res://Scenes/background.tscn" id="1_gmfif"]
 [ext_resource type="PackedScene" uid="uid://deo5knsxsjhly" path="res://Scenes/player.tscn" id="2_v6v5h"]
+[ext_resource type="Shader" path="res://background.gdshader" id="3_wmqdf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_gxdbh"]
+shader = ExtResource("3_wmqdf")
 
 [sub_resource type="Curve2D" id="Curve2D_7w6nl"]
 _data = {
@@ -16,7 +20,7 @@ _data = {
 }
 point_count = 4
 
-[node name="World" type="Node" node_paths=PackedStringArray("player", "boss_spawn", "boss_positions", "enemy_path", "enemy_spawn", "enemy_initial")]
+[node name="World" type="Node" node_paths=PackedStringArray("player", "boss_spawn", "boss_positions", "enemy_path", "enemy_spawn", "enemy_initial", "background", "spawn_timer")]
 script = ExtResource("1_byq4o")
 player = NodePath("Player")
 boss_spawn = NodePath("BossSpawn")
@@ -24,9 +28,12 @@ boss_positions = [NodePath("BossPosition1"), NodePath("BossPosition2"), NodePath
 enemy_path = NodePath("EnemyPath")
 enemy_spawn = NodePath("Path2D/EnemySpawnPoint")
 enemy_initial = NodePath("EnemyPath/EnemyInitialPoint")
+background = NodePath("Background")
+spawn_timer = NodePath("SpawnTimer")
 
 [node name="Background" parent="." instance=ExtResource("1_gmfif")]
-modulate = Color(1, 1, 1, 0.294118)
+modulate = Color(1, 1, 1, 0.0862745)
+material = SubResource("ShaderMaterial_gxdbh")
 offset_left = -6.10352e-05
 
 [node name="Player" parent="." instance=ExtResource("2_v6v5h")]
@@ -51,6 +58,7 @@ curve = SubResource("Curve2D_7w6nl")
 position = Vector2(96, 96)
 
 [node name="SpawnTimer" type="Timer" parent="."]
+wait_time = 3.0
 autostart = true
 
 [node name="Path2D" type="Path2D" parent="."]
