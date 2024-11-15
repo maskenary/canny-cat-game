@@ -4,6 +4,7 @@ signal boss_damage_taken(hp)
 signal boss_died
 signal spawn_pattern(pattern)
 
+var pickup = load("res://Scenes/pickup.tscn")
 var pattern_spawner = load("res://Scenes/Boss/pattern_spawner.tscn")
 
 @export var anim_player: Node
@@ -11,7 +12,7 @@ var pattern_spawner = load("res://Scenes/Boss/pattern_spawner.tscn")
 @export var active_timer: Node
 @export var attack_timer: Node
 var boss_name = "Joe"
-var hp = 300
+var hp = 50
 var speed = 500
 
 var boss_positions = [] # Set from creator

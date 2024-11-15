@@ -3,6 +3,8 @@ extends Control
 @export var charges: Array[Node]
 @export var healthbar: Node
 @export var dodgebar: Node
+@export var score: Node
+@export var highscore: Node
 
 func update_healthbar(hp):
 	healthbar.value = hp
@@ -20,6 +22,8 @@ func update_charges(charge_count):
 			
 		charges[i].get_theme_stylebox("panel").bg_color = color
 			
-	
+func update_score():
+	highscore.text = "Highscore: "+str(Autoload.highscore)
+	score.text = "Score: "+str(Autoload.score)
 	
 	

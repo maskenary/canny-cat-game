@@ -1,21 +1,23 @@
 extends PathFollow2D
 
 signal spawn_pattern(pattern)
+signal spawn_pickup(pickup)
 signal enemy_died
 
+var pickup = load("res://Scenes/pickup.tscn")
 var pattern_spawner = load("res://Scenes/Boss/pattern_spawner.tscn")
 var single_spin_formation = load("res://Scenes/Boss/single_spin_formation.tscn")
 var active = false
 var target_position = null
 var path_parent = null
-var pre_active_speed = 300
+var pre_active_speed = 600
 var active_speed = 0.05
 var hp = 10
 
 @export var attack_timer: Node
 
 func _ready() -> void:
-	Events.clear_enemies.connect(clear_self)
+	Autoload.clear_enemies.connect(clear_self)
 	self.modulate = Color(0, 0, 1, 0.475)
 
 func setup(initial_progress, offset: Vector2):
@@ -48,16 +50,24 @@ func attack():
 	var pattern = pattern_spawner.instantiate()
 	pattern.position = self.position
 	emit_signal("spawn_pattern", pattern)
-	pattern.shotgun_at_player(single_spin_formation, 300, 3, 0.5, 60, 2, 10)
+	pattern.shotgun_at_player(single_spin_formation, 150, 3, 0.5, 60, 1, 10)
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if active:
 		hp -= area.get_damage()
 		area.queue_free()
 		if hp <= 0:
-			emit_signal('enemy_died')
-			queue_free()
-
+			die()
+			
+func die():
+	var p = pickup.instantiate()
+	p.position = self.position
+	emit_signal("spawn_pickup", p)
+	
+	emit_signal('enemy_died')
+	queue_free()
+	
+	
 func clear_self():
 	queue_free()
 	

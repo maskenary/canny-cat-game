@@ -58,7 +58,7 @@ curve = SubResource("Curve2D_7w6nl")
 position = Vector2(96, 96)
 
 [node name="SpawnTimer" type="Timer" parent="."]
-wait_time = 3.0
+wait_time = 2.0
 autostart = true
 
 [node name="Path2D" type="Path2D" parent="."]

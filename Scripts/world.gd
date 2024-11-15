@@ -3,12 +3,17 @@ extends Node
 signal update_healthbar()
 signal update_dodgebar()
 signal update_charges()
+signal update_score
 
 var boss = load("res://Scenes/Boss/boss.tscn")
 var boss_interface = load("res://Scenes/Boss/boss_interface.tscn")
 var enemy = load("res://Scenes/enemy.tscn")
 var boss_instance
 var boss_interface_instance
+var enemies_left = 1
+
+@onready var stored_background_material = background.material
+
 @export var player: Node
 @export var boss_spawn: Node
 @export var boss_positions: Array[Node]
@@ -17,8 +22,6 @@ var boss_interface_instance
 @export var enemy_initial: Node
 @export var background: Node
 @export var spawn_timer: Node
-
-var enemies_left = 3
 
 func spawn_boss():
 	boss_instance = boss.instantiate()
@@ -36,13 +39,25 @@ func spawn_boss():
 	
 	boss_instance.set_target_position(boss_positions[0].position.x, boss_positions[0].position.y)
 	boss_instance.boss_positions = boss_positions
-	
+
+func spawn_pickup(pickup):
+	self.add_child(pickup)
+	pickup.score_changed.connect(score_changed)
+
+func score_changed():
+	emit_signal("update_score")
+
 func spawn_pattern(p):
 	self.add_child(p)
 	
 func cleanup_boss():
 	boss_instance.queue_free()
 	boss_interface_instance.queue_free()
+	Autoload.emit_signal("clear_enemies")
+	
+	# Continue the game
+	spawn_timer.start()
+	background.material = stored_background_material
 
 func _on_player_bullet_fired(bullet_instance) -> void:
 	add_child(bullet_instance)
@@ -59,6 +74,7 @@ func _on_player_charges_changed(charges) -> void:
 func _on_spawn_timer_timeout() -> void:
 	var e = enemy.instantiate()
 	e.spawn_pattern.connect(spawn_pattern)
+	e.spawn_pickup.connect(spawn_pickup)
 	enemy_initial.progress_ratio = randf()
 	enemy_spawn.progress_ratio = randf()
 	var offset_x = -(enemy_initial.position.x - enemy_spawn.position.x)
@@ -71,7 +87,7 @@ func enemy_died():
 	enemies_left -= 1
 	print(enemies_left)
 	if enemies_left <= 0:
-		Events.emit_signal("clear_enemies")
+		Autoload.emit_signal("clear_enemies")
 		spawn_timer.stop()
 		spawn_boss()
 		background.material = null
