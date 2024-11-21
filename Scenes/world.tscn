@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://c6ln5pfkyyx1s"]
+[gd_scene load_steps=7 format=3 uid="uid://c6ln5pfkyyx1s"]
 
 [ext_resource type="Script" path="res://Scripts/world.gd" id="1_byq4o"]
 [ext_resource type="PackedScene" uid="uid://c6gfxycj2603q" path="res://Scenes/background.tscn" id="1_gmfif"]
@@ -8,26 +8,17 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gxdbh"]
 shader = ExtResource("3_wmqdf")
 
-[sub_resource type="Curve2D" id="Curve2D_7w6nl"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, 96, 96, 0, 0, 0, 0, 928, 96, 0, 0, 0, 0, 928, 288, 0, 0, 0, 0, 96, 288, 0, 0, 0, 0, 96, 96)
-}
-point_count = 5
-
-[sub_resource type="Curve2D" id="Curve2D_60la0"]
-_data = {
-"points": PackedVector2Array(0, 0, 0, 0, -32, 288, 0, 0, 0, 0, -32, -32, 0, 0, 0, 0, 1056, -32, 0, 0, 0, 0, 1056, 288)
-}
-point_count = 4
+[sub_resource type="Curve2D" id="Curve2D_sahqx"]
 
 [node name="World" type="Node" node_paths=PackedStringArray("player", "boss_spawn", "boss_positions", "enemy_path", "enemy_spawn", "enemy_initial", "background", "spawn_timer")]
+process_mode = 1
 script = ExtResource("1_byq4o")
 player = NodePath("Player")
 boss_spawn = NodePath("BossSpawn")
 boss_positions = [NodePath("BossPosition1"), NodePath("BossPosition2"), NodePath("BossPosition3")]
-enemy_path = NodePath("EnemyPath")
-enemy_spawn = NodePath("Path2D/EnemySpawnPoint")
-enemy_initial = NodePath("EnemyPath/EnemyInitialPoint")
+enemy_path = NodePath("")
+enemy_spawn = NodePath("")
+enemy_initial = NodePath("")
 background = NodePath("Background")
 spawn_timer = NodePath("SpawnTimer")
 
@@ -51,22 +42,12 @@ position = Vector2(896, 192)
 [node name="BossPosition3" type="Marker2D" parent="."]
 position = Vector2(128, 192)
 
-[node name="EnemyPath" type="Path2D" parent="."]
-curve = SubResource("Curve2D_7w6nl")
-
-[node name="EnemyInitialPoint" type="PathFollow2D" parent="EnemyPath"]
-position = Vector2(96, 96)
-
 [node name="SpawnTimer" type="Timer" parent="."]
 wait_time = 2.0
 autostart = true
 
 [node name="Path2D" type="Path2D" parent="."]
-curve = SubResource("Curve2D_60la0")
-
-[node name="EnemySpawnPoint" type="PathFollow2D" parent="Path2D"]
-position = Vector2(-32, 288)
-rotation = -1.5708
+curve = SubResource("Curve2D_sahqx")
 
 [connection signal="bullet_fired" from="Player" to="." method="_on_player_bullet_fired"]
 [connection signal="charges_changed" from="Player" to="." method="_on_player_charges_changed"]

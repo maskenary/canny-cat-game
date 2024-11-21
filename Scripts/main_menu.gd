@@ -10,6 +10,7 @@ func _ready() -> void:
 	start_button.grab_focus()
 	
 func _on_start_button_pressed() -> void:
+	self.queue_free()
 	emit_signal("start_game")
 
 func _on_exit_button_pressed() -> void:

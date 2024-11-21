@@ -14,7 +14,7 @@ var shoot_cd = 0.1
 var can_shoot = true
 var normal_speed = 300
 var input_direction = Vector2.ZERO
-var hp = 10
+var hp = 1
 var charges = 0
 var charge_cd_progress = 0 # World reads this to send to UI
 var is_hittable = true
@@ -94,11 +94,16 @@ func _on_area_2d_area_entered(area: Area2D) -> void:
 		hp -= area.get_damage()
 		area.queue_free()
 		emit_signal("damage_taken", hp)
+		
+		if hp <= 0:
+			Autoload.emit_signal("player_died")
+	
 		anim_set("hurt")
 		is_hittable = false
 		await get_tree().create_timer(hurt_duration).timeout
 		anim_set("RESET")
 		is_hittable = true
+		
 
 func end_dodge():
 	is_hittable = true

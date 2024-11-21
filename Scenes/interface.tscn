@@ -76,8 +76,8 @@ grow_horizontal = 2
 grow_vertical = 0
 size_flags_vertical = 3
 theme_override_styles/fill = SubResource("StyleBoxFlat_ioooh")
-max_value = 10.0
-value = 10.0
+max_value = 20.0
+value = 20.0
 show_percentage = false
 
 [node name="DodgeBar" type="ProgressBar" parent="."]
