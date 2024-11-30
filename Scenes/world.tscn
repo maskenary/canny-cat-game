@@ -4,52 +4,46 @@
 [ext_resource type="PackedScene" uid="uid://c6gfxycj2603q" path="res://Scenes/background.tscn" id="1_gmfif"]
 [ext_resource type="PackedScene" uid="uid://deo5knsxsjhly" path="res://Scenes/player.tscn" id="2_v6v5h"]
 [ext_resource type="Shader" path="res://background.gdshader" id="3_wmqdf"]
+[ext_resource type="PackedScene" uid="uid://dbwrdnw3q1jry" path="res://Scenes/enemy_spawner.tscn" id="5_6t64o"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gxdbh"]
 shader = ExtResource("3_wmqdf")
 
-[sub_resource type="Curve2D" id="Curve2D_sahqx"]
-
-[node name="World" type="Node" node_paths=PackedStringArray("player", "boss_spawn", "boss_positions", "enemy_path", "enemy_spawn", "enemy_initial", "background", "spawn_timer")]
+[node name="World" type="Node" node_paths=PackedStringArray("player", "boss_spawn", "boss_positions", "background", "enemy_spawner")]
 process_mode = 1
 script = ExtResource("1_byq4o")
 player = NodePath("Player")
-boss_spawn = NodePath("BossSpawn")
-boss_positions = [NodePath("BossPosition1"), NodePath("BossPosition2"), NodePath("BossPosition3")]
-enemy_path = NodePath("")
-enemy_spawn = NodePath("")
-enemy_initial = NodePath("")
+boss_spawn = NodePath("BossPositions/BossSpawn")
+boss_positions = [NodePath("BossPositions/BossPosition1"), NodePath("BossPositions/BossPosition2"), NodePath("BossPositions/BossPosition3")]
 background = NodePath("Background")
-spawn_timer = NodePath("SpawnTimer")
+enemy_spawner = NodePath("EnemySpawner")
 
 [node name="Background" parent="." instance=ExtResource("1_gmfif")]
 modulate = Color(1, 1, 1, 0.0862745)
 material = SubResource("ShaderMaterial_gxdbh")
 offset_left = -6.10352e-05
+metadata/_edit_use_anchors_ = true
 
 [node name="Player" parent="." instance=ExtResource("2_v6v5h")]
 position = Vector2(512, 512)
 
-[node name="BossSpawn" type="Marker2D" parent="."]
+[node name="BossPositions" type="Node" parent="."]
+
+[node name="BossSpawn" type="Marker2D" parent="BossPositions"]
 position = Vector2(512, -192)
 
-[node name="BossPosition1" type="Marker2D" parent="."]
+[node name="BossPosition1" type="Marker2D" parent="BossPositions"]
 position = Vector2(512, 96)
 
-[node name="BossPosition2" type="Marker2D" parent="."]
+[node name="BossPosition2" type="Marker2D" parent="BossPositions"]
 position = Vector2(896, 192)
 
-[node name="BossPosition3" type="Marker2D" parent="."]
+[node name="BossPosition3" type="Marker2D" parent="BossPositions"]
 position = Vector2(128, 192)
 
-[node name="SpawnTimer" type="Timer" parent="."]
-wait_time = 2.0
-autostart = true
-
-[node name="Path2D" type="Path2D" parent="."]
-curve = SubResource("Curve2D_sahqx")
+[node name="EnemySpawner" parent="." instance=ExtResource("5_6t64o")]
 
 [connection signal="bullet_fired" from="Player" to="." method="_on_player_bullet_fired"]
 [connection signal="charges_changed" from="Player" to="." method="_on_player_charges_changed"]
 [connection signal="damage_taken" from="Player" to="." method="_on_player_damage_taken"]
-[connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]
+[connection signal="enemy_spawned" from="EnemySpawner" to="." method="_on_enemy_spawner_enemy_spawned"]

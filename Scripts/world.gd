@@ -7,21 +7,19 @@ signal update_score
 
 var boss = load("res://Scenes/Boss/boss.tscn")
 var boss_interface = load("res://Scenes/Boss/boss_interface.tscn")
-var enemy = load("res://Scenes/enemy.tscn")
 var boss_instance
 var boss_interface_instance
 var enemies_left = 1
 
 @onready var stored_background_material = background.material
-
 @export var player: Node
 @export var boss_spawn: Node
 @export var boss_positions: Array[Node]
-@export var enemy_path: Node
-@export var enemy_spawn: Node
-@export var enemy_initial: Node
 @export var background: Node
-@export var spawn_timer: Node
+@export var enemy_spawner: Node
+
+func _ready() -> void:
+	enemy_spawner.start()
 
 func spawn_boss():
 	boss_instance = boss.instantiate()
@@ -49,7 +47,7 @@ func cleanup_boss():
 	Autoload.emit_signal("clear_enemies")
 	
 	# Continue the game
-	spawn_timer.start()
+	enemy_spawner.start()
 	background.material = stored_background_material
 
 func _on_player_bullet_fired(bullet_instance) -> void:
@@ -63,25 +61,17 @@ func _on_player_damage_taken(hp) -> void:
 	
 func _on_player_charges_changed(charges) -> void:
 	emit_signal("update_charges", charges)
-
-func _on_spawn_timer_timeout() -> void:
-	var e = enemy.instantiate()
-	e.spawn_pattern.connect(spawn_pattern)
-	enemy_initial.progress_ratio = randf()
-	enemy_spawn.progress_ratio = randf()
-	var offset_x = -(enemy_initial.position.x - enemy_spawn.position.x)
-	var offset_y = -(enemy_initial.position.y - enemy_spawn.position.y)
-	e.enemy_died.connect(enemy_died)
-	enemy_path.add_child(e)
-	e.setup(enemy_initial.progress_ratio, Vector2(offset_x, offset_y))
 	
 func enemy_died():
 	enemies_left -= 1
 	print(enemies_left)
 	if enemies_left <= 0:
 		Autoload.emit_signal("clear_enemies")
-		spawn_timer.stop()
+		enemy_spawner.stop()
 		spawn_boss()
 		background.material = null
-	
-	
+
+# Link signals of enemy
+func _on_enemy_spawner_enemy_spawned(enemy: Variant) -> void:
+	enemy.spawn_pattern.connect(spawn_pattern)
+	enemy.enemy_died.connect(enemy_died)
