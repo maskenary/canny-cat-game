@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://soc6i7laqula"]
 
-[ext_resource type="Script" path="res://game_over.gd" id="1_7qf86"]
+[ext_resource type="Script" path="res://Scripts/game_over.gd" id="1_7qf86"]
 [ext_resource type="FontFile" uid="uid://bpd1v724y3fd8" path="res://centurygothic_bold.ttf" id="1_r6nq0"]
 
 [node name="GameOver" type="Control" node_paths=PackedStringArray("yes_button")]

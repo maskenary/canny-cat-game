@@ -9,7 +9,8 @@ var boss = load("res://Scenes/Boss/boss.tscn")
 var boss_interface = load("res://Scenes/Boss/boss_interface.tscn")
 var boss_instance
 var boss_interface_instance
-var enemies_left = 1
+const enemies_to_clear = 10
+var enemies_left = enemies_to_clear
 
 @onready var stored_background_material = background.material
 @export var player: Node
@@ -47,6 +48,7 @@ func cleanup_boss():
 	Autoload.emit_signal("clear_enemies")
 	
 	# Continue the game
+	enemies_left = enemies_to_clear
 	enemy_spawner.start()
 	background.material = stored_background_material
 
@@ -63,6 +65,7 @@ func _on_player_charges_changed(charges) -> void:
 	emit_signal("update_charges", charges)
 	
 func enemy_died():
+	enemy_spawner.enemy_died();
 	enemies_left -= 1
 	print(enemies_left)
 	if enemies_left <= 0:

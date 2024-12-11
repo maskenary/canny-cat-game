@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://nam0k6tjpwky"]
+
+[ext_resource type="Script" path="res://Scripts/Boss/boss_bullet.gd" id="1_tc6vg"]
+[ext_resource type="Texture2D" uid="uid://b7nuqjqyejdsb" path="res://Sprites/dog_projectile.png" id="2_5mrj5"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_iqtfr"]
+radius = 340.0
+
+[node name="EnemyBullet" type="Area2D"]
+modulate = Color(0.678431, 0, 0, 0.705882)
+scale = Vector2(0.045, 0.045)
+collision_layer = 2
+script = ExtResource("1_tc6vg")
+metadata/_edit_group_ = true
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("2_5mrj5")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("CircleShape2D_iqtfr")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

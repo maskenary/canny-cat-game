@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://c6gfxycj2603q" path="res://Scenes/background.tscn" id="1_gmfif"]
 [ext_resource type="PackedScene" uid="uid://deo5knsxsjhly" path="res://Scenes/player.tscn" id="2_v6v5h"]
 [ext_resource type="Shader" path="res://background.gdshader" id="3_wmqdf"]
-[ext_resource type="PackedScene" uid="uid://dbwrdnw3q1jry" path="res://Scenes/enemy_spawner.tscn" id="5_6t64o"]
+[ext_resource type="PackedScene" uid="uid://dbwrdnw3q1jry" path="res://Scenes/Enemy/enemy_spawner.tscn" id="5_6t64o"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_gxdbh"]
 shader = ExtResource("3_wmqdf")

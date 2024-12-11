@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dbwrdnw3q1jry"]
 
-[ext_resource type="Script" path="res://enemy_spawner.gd" id="1_nf8ca"]
+[ext_resource type="Script" path="res://Scripts/Enemy/enemy_spawner.gd" id="1_nf8ca"]
 
 [sub_resource type="Curve2D" id="Curve2D_sahqx"]
 _data = {
@@ -10,15 +10,15 @@ point_count = 5
 
 [sub_resource type="Curve2D" id="Curve2D_dk36x"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -32, -32, 0, 0, 0, 0, 512, 256, 0, 0, 0, 0, 1056, -32)
+"points": PackedVector2Array(0, 0, 0, 0, 0, -32, 0, 0, 0, 0, 256, 256, 0, 0, 0, 0, 512, -32, 0, 0, 0, 0, 768, 256, 0, 0, 0, 0, 1056, -32)
 }
-point_count = 3
+point_count = 5
 
 [sub_resource type="Curve2D" id="Curve2D_yeuot"]
 _data = {
-"points": PackedVector2Array(0, 0, 0, 0, -32, 288, 0, 0, 0, 0, 512, 32, 0, 0, 0, 0, 1056, 288)
+"points": PackedVector2Array(0, 0, 0, 0, -64, 160, 0, 0, 0, 0, 512, 32, 0, 0, 0, 0, 1088, 160, 0, 0, 0, 0, 512, 256, 0, 0, 0, 0, -64, 160)
 }
-point_count = 3
+point_count = 5
 
 [node name="EnemySpawner" type="Node" node_paths=PackedStringArray("enemy_paths", "timer")]
 script = ExtResource("1_nf8ca")
@@ -26,6 +26,7 @@ enemy_paths = [NodePath("EnemyPath1"), NodePath("EnemyPath2"), NodePath("EnemyPa
 timer = NodePath("Timer")
 
 [node name="Timer" type="Timer" parent="."]
+wait_time = 3.0
 
 [node name="EnemyPath1" type="Path2D" parent="."]
 curve = SubResource("Curve2D_sahqx")
