@@ -4,6 +4,7 @@ signal boss_damage_taken(hp)
 signal boss_died
 signal spawn_pattern(pattern)
 
+var death_explosion = load("res://Scenes/big_death_explosion.tscn")
 var pickup = load("res://Scenes/pickup.tscn")
 var pattern_spawner = load("res://Scenes/Boss/pattern_spawner.tscn")
 
@@ -12,7 +13,7 @@ var pattern_spawner = load("res://Scenes/Boss/pattern_spawner.tscn")
 @export var active_timer: Node
 @export var attack_timer: Node
 var boss_name = "Joe"
-var hp = 50
+var hp = 100
 var speed = 500
 
 var boss_positions = [] # Set from creator
@@ -38,11 +39,17 @@ func update_cooldowns(attack_cooldown, active_duration):
 """
 
 func _on_area_entered(area: Area2D) -> void:
-	hp -= area.get_damage()
-	emit_signal("boss_damage_taken", hp)
-	area.queue_free()
+	if area.has_method("destroy") and area.has_method("get_damage"):
+		hp -= area.get_damage()
+		area.destroy()
 
+	emit_signal("boss_damage_taken", hp)
 	if hp <= 0:
+		var particle = death_explosion.instantiate()
+		particle.position = self.position
+		particle.emitting = true
+		get_parent().add_child(particle)
+		
 		emit_signal("boss_died")
 
 func animate_self(animation):

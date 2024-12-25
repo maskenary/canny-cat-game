@@ -1,50 +1,32 @@
 [gd_scene load_steps=6 format=3 uid="uid://x3fkhyh7ecrs"]
 
-[ext_resource type="PackedScene" uid="uid://bgxdmhawwu7pd" path="res://Scenes/Boss/boss_bullet.tscn" id="2_b83g6"]
-
-[sub_resource type="GDScript" id="GDScript_ajic1"]
-script/source = "extends Node
-
-var enemy_projectile_sprite = load(\"res://Sprites/dog_projectile.png\")
-@export var bullet:Node
-
-var speed = null
-var direction = null
-
-func _ready() -> void:
-	bullet.setSprite(enemy_projectile_sprite)
-
-func set_movement(direction, speed):
-	self.direction = direction
-	self.speed = speed
-	
-func _physics_process(delta: float) -> void:
-	self.position += direction*speed*delta
-"
+[ext_resource type="PackedScene" uid="uid://nam0k6tjpwky" path="res://Scenes/enemy_bullet.tscn" id="1_67s1w"]
+[ext_resource type="Script" path="res://Scripts/Boss/formation_movement.gd" id="1_q1cpa"]
 
 [sub_resource type="Animation" id="Animation_smj8e"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("BossBullet:rotation")
+tracks/0/path = NodePath("EnemyBullet:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [6.28319]
+"values": [0.0]
 }
 
 [sub_resource type="Animation" id="Animation_t2vkq"]
 resource_name = "attack"
 length = 10.0
 loop_mode = 1
+step = 1.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("BossBullet:rotation")
+tracks/0/path = NodePath("EnemyBullet:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -60,9 +42,8 @@ _data = {
 "attack": SubResource("Animation_t2vkq")
 }
 
-[node name="SingleSpinFormation" type="Node2D" node_paths=PackedStringArray("bullet")]
-script = SubResource("GDScript_ajic1")
-bullet = NodePath("BossBullet")
+[node name="SingleSpinFormation" type="Node2D"]
+script = ExtResource("1_q1cpa")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
@@ -70,5 +51,5 @@ libraries = {
 }
 autoplay = "attack"
 
-[node name="BossBullet" parent="." instance=ExtResource("2_b83g6")]
-rotation = 6.28319
+[node name="EnemyBullet" parent="." instance=ExtResource("1_67s1w")]
+position = Vector2(-1.52588e-05, 0)

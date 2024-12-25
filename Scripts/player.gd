@@ -9,6 +9,7 @@ signal charges_changed(charges)
 @export var charge_cd: Node
 @export var dodge_duration: Node
 
+var death_explosion = load("res://Scenes/big_death_explosion.tscn")
 var bullet = load("res://Scenes/Bullet.tscn")
 var shoot_cd = 0.1
 var can_shoot = true
@@ -71,9 +72,6 @@ func _process(delta: float) -> void:
 	if state == States.ACTIVE:
 		dodge()
 		shoot()
-	if state == States.DODGING:
-		if Input.is_action_just_released("dodge"):
-			end_dodge()
 			
 func _physics_process(delta):
 	input_direction = Input.get_vector("left", "right", "up", "down")
@@ -91,19 +89,28 @@ func _on_charge_cooldown_timeout() -> void:
 
 func _on_area_2d_area_entered(area: Area2D) -> void:
 	if is_hittable:
-		hp -= area.get_damage()
-		area.queue_free()
+		if area.has_method("destroy") and area.has_method("get_damage"):
+			hp -= area.get_damage()
+			area.destroy()
 		emit_signal("damage_taken", hp)
 		
 		if hp <= 0:
-			Autoload.emit_signal("player_died")
-	
+			die()
+			
 		anim_set("hurt")
 		is_hittable = false
 		await get_tree().create_timer(hurt_duration).timeout
 		anim_set("RESET")
 		is_hittable = true
 		
+
+func die():
+	var particle = death_explosion.instantiate()
+	particle.position = self.position
+	particle.emitting = true
+	get_parent().add_child(particle)
+	Autoload.emit_signal("player_died")
+	self.queue_free()
 
 func end_dodge():
 	is_hittable = true

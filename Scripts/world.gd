@@ -56,7 +56,8 @@ func _on_player_bullet_fired(bullet_instance) -> void:
 	add_child(bullet_instance)
 	
 func _process(delta: float) -> void:
-	emit_signal("update_dodgebar", player.charge_cd_progress)
+	if is_instance_valid(player):
+		emit_signal("update_dodgebar", player.charge_cd_progress)
 
 func _on_player_damage_taken(hp) -> void:
 	emit_signal("update_healthbar", hp)

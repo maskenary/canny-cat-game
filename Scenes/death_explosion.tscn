@@ -1,0 +1,23 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2ke2blg8w6i"]
+
+[sub_resource type="Curve" id="Curve_vmiqp"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.494505), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="LargeExplosion" type="CPUParticles2D"]
+process_mode = 3
+emitting = false
+amount = 30
+lifetime = 0.5
+one_shot = true
+speed_scale = 2.25
+explosiveness = 1.0
+lifetime_randomness = 0.5
+spread = 180.0
+gravity = Vector2(0, 750)
+initial_velocity_min = 100.0
+initial_velocity_max = 200.0
+scale_amount_min = 15.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_vmiqp")
+color = Color(1, 0, 0, 0.545098)

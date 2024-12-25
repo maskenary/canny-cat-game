@@ -1,0 +1,18 @@
+[gd_scene load_steps=3 format=3 uid="uid://p36lh5txe1pr"]
+
+[ext_resource type="FontFile" uid="uid://bpd1v724y3fd8" path="res://centurygothic_bold.ttf" id="1_okhuy"]
+[ext_resource type="Script" path="res://Scripts/controls_popup.gd" id="2_21pak"]
+
+[node name="Controls" type="Label"]
+offset_left = 16.0
+offset_right = 389.0
+offset_bottom = 172.0
+theme_override_constants/outline_size = 10
+theme_override_fonts/font = ExtResource("1_okhuy")
+theme_override_font_sizes/font_size = 35
+text = "Controls:
+WASD/Arrow Keys - Movement
+Shift - Activate Dodge
+
+Press Enter or Space to close..."
+script = ExtResource("2_21pak")

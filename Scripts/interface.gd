@@ -6,8 +6,14 @@ extends Control
 @export var score: Node
 @export var highscore: Node
 
+var controls_popup = load("res://Scenes/controls_popup.tscn")
+
 func _ready() -> void:
 	Autoload.update_score.connect(update_score)
+	
+	# Create controls popup
+	var p = controls_popup.instantiate()
+	self.add_child(p)
 
 func update_healthbar(hp):
 	healthbar.value = hp
