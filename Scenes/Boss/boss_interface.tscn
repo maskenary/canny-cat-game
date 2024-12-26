@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://dm0kx2wtasdwm"]
+[gd_scene load_steps=4 format=3 uid="uid://dm0kx2wtasdwm"]
 
 [ext_resource type="Script" path="res://Scripts/Boss/boss_interface.gd" id="1_uhqoa"]
+[ext_resource type="FontFile" uid="uid://bpd1v724y3fd8" path="res://centurygothic_bold.ttf" id="2_equdw"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ioooh"]
 bg_color = Color(0.429619, 7.70092e-07, 3.60981e-07, 1)
@@ -16,7 +17,7 @@ anchor_right = 0.5
 offset_left = -320.0
 offset_top = 8.0
 offset_right = 320.0
-offset_bottom = 48.0
+offset_bottom = 56.0
 grow_horizontal = 2
 script = ExtResource("1_uhqoa")
 name_label = NodePath("BossName")
@@ -24,6 +25,10 @@ healthbar = NodePath("BossHealthBar")
 
 [node name="BossName" type="Label" parent="."]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.44895, 1.30555e-06, 9.62615e-08, 1)
+theme_override_constants/outline_size = 5
+theme_override_fonts/font = ExtResource("2_equdw")
+theme_override_font_sizes/font_size = 20
 text = "Boss Name"
 horizontal_alignment = 1
 vertical_alignment = 1

@@ -10,7 +10,7 @@ signal charges_changed(charges)
 @export var dodge_duration: Node
 
 var death_explosion = load("res://Scenes/big_death_explosion.tscn")
-var bullet = load("res://Scenes/Bullet.tscn")
+var bullet = load("res://Scenes/bullet.tscn")
 var shoot_cd = 0.1
 var can_shoot = true
 var normal_speed = 300

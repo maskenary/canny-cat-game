@@ -12,7 +12,7 @@ var pattern_spawner = load("res://Scenes/Boss/pattern_spawner.tscn")
 @export var sprite: Node
 @export var active_timer: Node
 @export var attack_timer: Node
-var boss_name = "Joe"
+var boss_name = "El Rot"
 var hp = 100
 var speed = 500
 
